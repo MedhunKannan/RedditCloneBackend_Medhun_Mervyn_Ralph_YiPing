@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link href="css/default.css" rel="stylesheet" />
+    <link href="css/LogInOne.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="jwt-decode.js"></script>
+
+    <script>
+        //var jwt_decode = require("..//jwt-decode.cjs.js");
+
+        $(document).ready(function () {
+
+            $("#Login").click(function () {
+
+                var id = $('#username').val();
+                var pwd = $('#pwd').val();
+                // var data = "{\"username\":\"" + id + "\", \"password\":\"" + pwd + "\"}";
+                const obj = { username: id, password: pwd };
+                const data = JSON.stringify(obj);
+                console.log(data);
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:8000/api/users/login',
+                    data: data,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data, textStatus, xhr) {
+                        if (data != null) {
+                            // try {
+                            //     let b64DecodeUnicode = str =>
+                            //         decodeURIComponent(
+                            //             Array.prototype.map.call(atob(str), c =>
+                            //                 '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+                            //             ).join(''))
+
+                            //     let parseJwt = jwtToken =>
+                            //         JSON.parse(
+                            //             b64DecodeUnicode(
+                            //                 jwtToken.split('.')[1].replace('-', '+').replace('_', '/')
+                            //             )
+                            //         )
+                            //     //var decodedToken = parseJwt(data.jwtToken);
+                            //     console.log(decodedToken.user + "decodedTOken")
+                            // } catch {
+                            //     console.log("Error decoding token")
+                            // }
+                            
+                            localStorage.setItem('token', data.jwtToken);
+                            // var decodedToken = jwt_decode(data.jwtToken);
+                            // localStorage.setItem('userInfo', decodedToken);
+                            // console.log(decodedToken)
+                            window.location.assign("http://localhost:3001/viewpost.html");
+                        } else {
+                            console.log("Error");
+
+                        }
+                    },
+                    error: function (xhr, textStatus, errorThrown) {
+                        console.log('Error in Operation');
+                        $('#warning').html('Email or password is wrong!');
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div class="row" id="box1">
+        <!-- <div class="login-form">
+            <form action="">
+                <h2 class="text-center">Log in</h2>
+                <div class="form-group">
+                    <label for="email">Username</label>
+                    <input type="text" class="form-control" id="username" value="Ralph Gerard" placeholder="Username"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="pwd">Password</label>
+                    <input type="password" class="form-control" id="pwd" value="password" placeholder="Password"
+                        required>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-secondary btn-block" id="Login">Log in</button>
+                </div> -->
+                <div class="login-box">
+                    <h2>Login</h2>
+                    <form>
+                      <div class="user-box">
+                        <input type="text" id="username" name="" required="">
+                        <label>Username</label>
+                      </div>
+                      <div class="user-box">
+                        <input type="password" id="pwd" name="" required="">
+                        <label>Password</label>
+                      </div>
+                      <p><span id="warning" style="color: red; font-size: 18px;"></span></p>
+                      <a href="#" id="Login">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        Submit
+                      </a>
+                      <a href="register.html">New User?</a>
+                    </form>
+                  </div>
+                <!-- <div class="clearfix">
+                    <label class="pull-left checkbox-inline"><input type="checkbox"> Remember me</label>
+                </div> -->
+            </form>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+body{ 
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#create {
+    background-color: #ff5700;
+    color: white;
+    border: none;
+    width: 100px;
+    height: 30px;
+    border-radius: 20px;
+    float: right;
+  }
